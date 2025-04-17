@@ -1,0 +1,14 @@
+{
+    "exec": "pnpm run start",
+    "ext": "json,ts",
+    "ignore": [
+        "node_modules/**",
+        "server/**/*.spec.ts"
+    ],
+    "watch": [
+        "server/**/*.json",
+        "server/**/*.ts",
+        "shared/**/*.json",
+        "shared/**/*.ts"
+    ]
+}

@@ -1,0 +1,46 @@
+{
+    "name": "ai-order-bot",
+    "description": "Proof of Concept for a AI Chatbot using Tool Calling.",
+    "author": "Neville Gallimore",
+    "license": "UNLICENSED",
+    "version": "1.0.0",
+    "main": "server/server.ts",
+    "packageManager": "pnpm@10.6.1",
+    "dependencies": {
+        "express": "^5.1.0",
+        "nanoid": "3",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+        "ts-node": "^10.9.2",
+        "tsconfig-paths": "^4.2.0"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.26.10",
+        "@babel/preset-env": "^7.26.9",
+        "@babel/preset-react": "^7.26.3",
+        "@babel/preset-typescript": "^7.27.0",
+        "@types/express": "^5.0.1",
+        "@types/nanoid": "^3.0.0",
+        "@types/node": "^22.14.0",
+        "@types/react": "^19.1.0",
+        "@types/react-dom": "^19.1.2",
+        "babel-loader": "^10.0.0",
+        "concurrently": "^9.1.2",
+        "nodemon": "^3.1.9",
+        "sass": "^1.86.3",
+        "typescript": "^5.8.3",
+        "webpack": "^5.99.5",
+        "webpack-cli": "^6.0.1"
+    },
+    "scripts": {
+        "build": "pnpm run clean && pnpm run build:source && pnpm run build:styles",
+        "build:source": "webpack --config webpack.config.js",
+        "build:styles": "sass client/styles/index.scss public/main.css --source-map",
+        "clean": "rm -rf public",
+        "start": "ts-node server/server.ts",
+        "watch": "pnpm run clean && concurrently \"pnpm run watch:server\" \"pnpm run watch:source\" \"pnpm run watch:styles\"",
+        "watch:server": "nodemon --config nodemon.json",
+        "watch:source": "pnpm run build:source --watch",
+        "watch:styles": "pnpm run build:styles --watch"
+    }
+}
