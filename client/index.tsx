@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
 // import internal dependencies
+import { Chatbot } from '@client/components';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -41,7 +42,7 @@ const Application = () => {
     return (
         <div className="application" data-component="application">
             <header className="header" data-component="header">
-                <div className="application__page-width">
+                <div className="header__page-width">
                     <h1 className="header__headline">Order System</h1>
                 </div>
             </header>
@@ -119,13 +120,15 @@ const Application = () => {
                                     )}
                                 </div>
                             </div>
+
+                            <Chatbot />
                         </main>
                     </div>
                 </div>
             </div>
 
             <footer className="footer" data-component="footer">
-                <div className="application__page-width">
+                <div className="footer__page-width">
                     <p className="footer__copyright">&copy; 2025 · Coded by Neville</p>
                 </div>
             </footer>

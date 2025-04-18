@@ -22,6 +22,7 @@
             flex-direction: row;
             justify-content: flex-start;
             align-items: flex-start;
+            min-height: calc(100vh - 12rem);
         }
     }
 
@@ -29,9 +30,17 @@
         color: #ffffff;
         background: #333333;
 
+        .header__page-width {
+            min-width: 320px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+        }
+
         .header__headline {
-            font-size: 1.5rem;
-            font-weight: 300;
+            font-size: 1.25rem;
+            font-weight: 100;
             line-height: 2rem;
             text-transform: uppercase;
         }
@@ -41,10 +50,18 @@
         color: #ffffff;
         background: #333333;
 
+        .footer__page-width {
+            min-width: 320px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+        }
+
         .footer__copyright {
             font-size: 0.75rem;
             font-weight: 300;
-            line-height: 1.5;
+            line-height: 2rem;
             text-align: center;
         }
     }
