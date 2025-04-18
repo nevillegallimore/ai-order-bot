@@ -1,4 +1,4 @@
-export type Filter<T> = {
-    prop: keyof T;
+export type Filter = {
+    prop: string;
     value: string;
-}
+};

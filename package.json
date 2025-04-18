@@ -35,7 +35,7 @@
     "scripts": {
         "build": "pnpm run clean && pnpm run build:source && pnpm run build:styles",
         "build:source": "webpack --config webpack.config.js",
-        "build:styles": "sass client/styles/index.scss public/main.css --source-map",
+        "build:styles": "sass client/index.scss public/main.css --source-map",
         "clean": "rm -rf public",
         "start": "ts-node server/server.ts",
         "watch": "pnpm run clean && concurrently \"pnpm run watch:server\" \"pnpm run watch:source\" \"pnpm run watch:styles\"",
