@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "alwaysStrict": true,
+        "baseUrl": ".",
+        "esModuleInterop": true,
+        "jsx": "preserve",
+        "lib": ["dom", "esnext"],
+        "module": "nodenext",
+        "moduleResolution": "nodenext",
+        "paths": {
+            "@client/*": ["client/*"],
+            "@server/*": ["server/*"],
+            "@shared/*": ["shared/*"]
+        },
+        "resolveJsonModule": true,
+        "strict": true,
+        "target": "es2024"
+    },
+    "exclude": ["node_modules/**"],
+    "include": [
+        "client/**/*.ts",
+        "client/**/*.tsx",
+        "server/**/*.json",
+        "server/**/*.ts",
+        "shared/**/*.json",
+        "shared/**/*.ts"
+    ],
+    "ts-node": {
+        "require": ["tsconfig-paths/register"]
+    }
+}
