@@ -34,6 +34,10 @@
 
     &__body {
         flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
         margin-top: 1rem;
         overflow-y: scroll;
         border: 1px solid #e3e3e3;
@@ -66,10 +70,10 @@
     }
 
     &__messages {
+        flex: 1;
         list-style: none;
         margin: .25rem;
         padding: 0;
-
     }
 
     &__message-line {
@@ -79,17 +83,20 @@
         border-radius: .25rem;
     }
 
-    &__message-line[data-message-type="System"] {
+    &__message-line[data-message-role="assistant"],
+    &__message-line[data-message-role="system"] {
         margin-left: 25%;
         background: #c0c0c0;
     }
 
-    &__message-line[data-message-type="Tool"] {
-        margin-left: 25%;
-        background: #d1c4e9;
+    &__message-line[data-message-role="user"] {
+        background: #bbdefb;
     }
 
-    &__message-line[data-message-type="User"] {
-        background: #bbdefb;
+    &__message-thinking {
+        display: block;
+        width: 100%;
+        color: #c0c0c0;
+        text-align: right;
     }
 }

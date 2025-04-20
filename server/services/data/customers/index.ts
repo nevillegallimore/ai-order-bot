@@ -29,7 +29,6 @@ const service = {
         const filters: Filter[] = FILTER_PROPS.reduce((filters: Filter[], prop: FilterProp) => {
             return query[prop] ? [...filters, { prop, value: query[prop] }] : filters;
         }, []);
-        console.log('[DEBUG] Runningn Fetch:', { filters, query }); // DEBUG
 
         let result: Customer[] = customers;
         filters.forEach((filter: Filter) => {

@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 // import internal dependencies
 import config from '@server/config';
 import { Controller } from '@server/types';
+import ai from './ai';
 import customers from './customers';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -15,7 +16,7 @@ const root: Controller = {
     },
 };
 
-const controllers = { customers, root };
+const controllers = { ai, customers, root };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 

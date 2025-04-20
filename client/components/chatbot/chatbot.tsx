@@ -1,41 +1,43 @@
 // import external dependencies
-import React, { KeyboardEvent, useState } from 'react';
+import React, { KeyboardEvent, useRef, useState } from 'react';
 
 // import internal dependencies
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export type ChatbotMessageType = 'System' | 'Tool' | 'User';
+export type ChatbotMessageRole = 'assistant' | 'system' | 'user';
 
 export interface ChatbotMessage {
-    message: string;
-    meta?: {
-        tool: string;
-        parameters: Array<{
-            name: string;
-            value: string;
-        }>;
-    };
-    type: ChatbotMessageType;
+    content: string;
+    role: ChatbotMessageRole;
 }
 
 export interface ChatbotProps {}
 
 export const Chatbot = ({}: ChatbotProps) => {
+    const [isThinking, setThinking] = useState<boolean>(false);
     const [isOpen, setOpen] = useState<boolean>(true);
-    const [messages, setMessage] = useState<ChatbotMessage[]>([
-        { type: 'User', message: 'Why is the sky blue?' },
-        { type: 'System', message: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.' },
-        { type: 'User', message: 'Thanks!' },
-        { type: 'System', message: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.' },
-        { type: 'System', message: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.' },
-        { type: 'System', message: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.' },
-    ]);
+    const [messages, setMessages] = useState<ChatbotMessage[]>([]);
+    const nullMessage = useRef<HTMLLIElement | null>(null);
 
     const onToggleOpen = () => {
         setOpen((prevState: boolean) => {
             return !prevState;
         });
+    };
+
+    const getAiResponse = async (content: string) => {
+        setThinking(true);
+        const payload = await (await fetch('http://localhost:3000/api/ai', {
+            body: JSON.stringify({ content, context: messages }),
+            headers: { 'Content-Type': 'application/json' },
+            method: 'POST',
+        })).json();
+        setThinking(false);
+        setMessages((prevState: ChatbotMessage[]) => {
+            return [...prevState, { role: payload.data.message.role, content: payload.data.message.content }];
+        });
+        nullMessage.current?.scrollIntoView();
     };
 
     const onChatbotInput = (event: KeyboardEvent<HTMLInputElement>): void => {
@@ -44,11 +46,13 @@ export const Chatbot = ({}: ChatbotProps) => {
             event.stopPropagation();
 
             if (event.currentTarget.value) {
-                const message: string = event.currentTarget.value;
+                const content: string = event.currentTarget.value;
                 event.currentTarget.value = '';
-                setMessage((prevState: ChatbotMessage[]) => {
-                    return [...prevState, { message, type: 'User' }];
+                setMessages((prevState: ChatbotMessage[]) => {
+                    return [...prevState, { content, role: 'user' }];
                 });
+                nullMessage.current?.scrollIntoView();
+                getAiResponse(content);
             }
         }
     }
@@ -65,12 +69,16 @@ export const Chatbot = ({}: ChatbotProps) => {
             </div>
             <div className="chatbot__body">
                 <ul className="chatbot__messages">
-                    {messages.map(({ message, type }: ChatbotMessage, index: number) => (
-                        <li className="chatbot__message-line" data-message-type={type} key={index}>
-                            {message}
+                    {messages.map(({ content, role }: ChatbotMessage, index: number) => (
+                        <li className="chatbot__message-line" data-message-role={role} key={index}>
+                            {content}
                         </li>
                     ))}
+                    <li className="chatbot__message-line--null" ref={nullMessage}></li>
                 </ul>
+                {isThinking && (
+                    <div className="chatbot__message-thinking">AI Chatbot is typing...</div>
+                )}
             </div>
             <div className="chatbot__foot">
                 <input className="chatbot__input" onKeyDown={onChatbotInput} type="text" />
